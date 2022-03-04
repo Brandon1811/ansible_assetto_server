@@ -1,0 +1,2 @@
+ - src: https://github.com/florianutz/ubuntu2004_cis.git
+ - src: https://github.com/trallnag/ansible-role-endlessh.git
