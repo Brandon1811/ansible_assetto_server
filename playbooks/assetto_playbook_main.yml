@@ -1,0 +1,4 @@
+---
+- import_playbook: harden_ubuntu20.yml
+- import_playbook: endless_ssh.yml
+- import_playbook: install_docker.yml

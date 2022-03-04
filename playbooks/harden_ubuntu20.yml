@@ -1,0 +1,5 @@
+- name: Harden Ubuntu 20.04 Server
+  hosts: ubuntu20
+  become: yes
+  roles:
+    - ubuntu2004_cis
