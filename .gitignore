@@ -2,3 +2,4 @@
 inventory
 roles
 host_vars/*
+server_manager/config.yml

@@ -1,0 +1,23 @@
+---
+- name: install assetto server manager via docker compose
+  hosts: assetto
+  tasks:
+  - name: setup volumes for docker/assetto server manager
+    file:
+      path: /home/{{ main_user }}/server-manager/assetto
+      state: directory
+
+  - name: copy docker-compose.yml
+    copy:
+      src: server_manager/
+      dest: assetto_server_manager/
+
+  - name: test docker-compose
+    docker_compose:
+      project_src: assetto_server_manager/
+      state: present
+    register: __assetto_server_manager
+
+  - name: debug
+    debug:
+      var: __assetto_server_manager
