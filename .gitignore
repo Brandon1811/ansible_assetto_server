@@ -1,2 +1,3 @@
 inventory
 roles
+host_vars/*
