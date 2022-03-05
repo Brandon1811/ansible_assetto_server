@@ -1,0 +1,4 @@
+- name: Playbook
+  hosts: endlessh
+  roles:
+    - name: ansible-role-endlessh

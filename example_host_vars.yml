@@ -1,0 +1,44 @@
+---
+
+##########################################
+#            Docker Vars                 #
+##########################################
+docker_user: MAIN_USERNAME_HERE
+
+
+##########################################
+#            steam Vars                  #
+# set it up with a dedicated server acct #
+# do not use your personal account       #
+##########################################
+steam_user: STEAM_USERNAME_HERE
+steam_pwd: STEAM_PASSWORD_HERE
+
+##########################################
+#          Endless SSH Vars              #
+##########################################
+main_user: MAIN_USERNAME_HERE
+
+##########################################
+#           Hardening Vars               #
+##########################################
+
+# Update root password
+ubuntu2004cis_root_password: SET_VIA_VAULT_AND_PASTE_HERE
+
+# 1.4.2 Bootloader password
+ubuntu2004cis_bootloader_password: SET_VIA_VAULT_AND_PASTE_HERE
+ubuntu2004cis_set_boot_pass: true
+
+ubuntu2004cis_httpd_server: false
+
+ubuntu2004cis_at_allow_users: [MAIN_USERNAME_HERE]
+ubuntu2004cis_cron_allow_users: [MAIN_USERNAME_HERE]
+
+
+ubuntu2004cis_sshd:
+  ### Make sure you understand the precedence when working with these values!!
+  allowusers: MAIN_USERNAME_HERE
+  # allowgroups: systems dba
+#  # denyusers:
+#  # denygroups:

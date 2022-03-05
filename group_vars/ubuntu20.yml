@@ -1,0 +1,100 @@
+---
+#####################################
+#     Ubuntu2004-CIS HARDENING      #
+#####################################
+
+# These variables correspond with the CIS rule IDs or paragraph numbers defined in
+# the CIS benchmark documents.
+# PLEASE NOTE: These work in coordination with the section # group variables and tags.
+# You must enable an entire section in order for the variables below to take effect.
+
+
+
+# Section 1 rules
+
+
+# defaults to false
+ubuntu2004cis_rule_1_1_5: true
+
+# defaults to true
+ubuntu2004cis_rule_1_1_7: false
+
+# defaults to false
+ubuntu2004cis_rule_1_5_3: true
+
+# defaults to false
+ubuntu2004cis_rule_1_5_4: true
+
+# defaults to true
+ubuntu2004cis_rule_1_6_1: false
+
+
+# Section 2 rules
+
+
+# Section 3 rules
+
+
+#defaults to true
+ubuntu2004cis_rule_3_2_2: false
+
+#defaults to true
+ubuntu2004cis_rule_3_5_1_4: false
+
+#defaults to true
+ubuntu2004cis_rule_3_5_1_5: false
+
+#defaults to true
+ubuntu2004cis_rule_3_5_1_6: false
+
+#defaults to true
+ubuntu2004cis_rule_3_5_1_7: false
+
+
+
+# Section 4 rules
+
+
+# Section 5 rules
+
+
+# Section 6 rules
+
+
+# SET PASSWORD BELOW IN HOST_VARS
+# 1.4.2 Bootloader password
+ubuntu2004cis_bootloader_password: random
+# Defaults to false
+ubuntu2004cis_set_boot_pass: true
+
+# IPv6 required - defaults to true
+ubuntu2004cis_ipv6_required: false
+
+# Time Synchronization - default is chrony
+ubuntu2004cis_time_synchronization: ntp
+
+# Firewall - default is firewalld
+ubuntu2004cis_firewall: ufw
+
+ubuntu2004cis_firewall_services:
+  - ssh
+  - dhcpv6-client
+
+## Section 4 Vars
+# defaults are halt, keep_logs, 10, and "8192"
+ubuntu2004cis_auditd:
+  admin_space_left_action: email
+  max_log_file_action: rotate
+  max_audit_log_file_size: 10
+  backlog_limit: "8192"
+
+# extended password expiration - just use an excellent password
+ubuntu2004cis_pass:
+  max_days: 36500
+  min_days: 1
+  warn_age: 7
+  inactive: 3650
+  history: 5
+
+### Firewall
+ubuntu2004cis_setup_firewall: true

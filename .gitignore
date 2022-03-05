@@ -1,0 +1,6 @@
+.idea
+inventory
+roles
+host_vars/*
+server_manager/config.yml
+server_manager/install_assetto.txt
