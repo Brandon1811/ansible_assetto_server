@@ -15,7 +15,7 @@ services:
     volumes:
       # volume mount the entire server install so that
       # content etc persists across restarts
-      - ./server-install:/home/bigwang/server-manager/assetto
+      - ./server-install:/home/assetto/server-manager/assetto
 
       # volume mount the config
-      - ./config.yml:/home/bigwang/server-manager/config.yml
+      - ./config.yml:/home/assetto/server-manager/config.yml

@@ -5,6 +5,15 @@
 ##########################################
 docker_user: MAIN_USERNAME_HERE
 
+
+##########################################
+#            steam Vars                  #
+# set it up with a dedicated server acct #
+# do not use your personal account       #
+##########################################
+steam_user: STEAM_USERNAME_HERE
+steam_pwd: STEAM_PASSWORD_HERE
+
 ##########################################
 #          Endless SSH Vars              #
 ##########################################

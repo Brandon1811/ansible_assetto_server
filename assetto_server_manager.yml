@@ -1,23 +1,113 @@
 ---
-- name: install assetto server manager via docker compose
-  hosts: assetto
+- hosts: assetto
+  become: yes
   tasks:
-  - name: setup volumes for docker/assetto server manager
-    file:
-      path: /home/{{ main_user }}/server-manager/assetto
-      state: directory
+    - name: "NOTSCORED | 3.5.1.6 | PATCH | Ensure firewall rules exist for all open ports"
+      block:
+        - name: "NOTSCORED | 3.5.1.6 | PATCH | Ensure firewall rules exist for all open ports| ssh"
+          ufw:
+            rule: allow
+            proto: tcp
+            port: '22'
 
-  - name: copy docker-compose.yml
-    copy:
-      src: server_manager/
-      dest: assetto_server_manager/
+        - name: "NOTSCORED | 3.5.1.6 | PATCH | Ensure firewall rules exist for all open ports| 8772 web admin portal and api"
+          ufw:
+            rule: allow
+            proto: tcp
+            port: "{{ item }}"
+          loop:
+            - '8772'
+            - '8081'
 
-  - name: test docker-compose
-    docker_compose:
-      project_src: assetto_server_manager/
-      state: present
-    register: __assetto_server_manager
+        - name: "NOTSCORED | 3.5.1.6 | PATCH | Ensure firewall rules exist for all open ports| game server"
+          ufw:
+            rule: allow
+            proto: "{{ item }}"
+            port: '9600'
+          loop:
+            - tcp
+            - udp
 
-  - name: debug
-    debug:
-      var: __assetto_server_manager
+    - name: Creates directory structure for assetto content
+      file:
+        path: /home/{{ main_user }}/server-manager
+        state: directory
+        owner: "{{ main_user }}"
+        group: "{{ main_user }}"
+        mode: 0775
+
+    - name: Creates directory structure for assetto content
+      become_user: "{{ main_user }}"
+      file:
+        path: /home/{{ main_user }}/server-manager/assetto
+        state: directory
+        owner: "{{ main_user }}"
+        group: "{{ main_user }}"
+        mode: 0775
+
+    - name: Creates directory structure for assetto content
+      become_user: "{{ main_user }}"
+      file:
+        path: /home/{{ main_user }}/server-manager/server-install
+        state: directory
+        owner: "{{ main_user }}"
+        group: "{{ main_user }}"
+        mode: 0775
+
+    - name: Creates directory structure for assetto content
+      become_user: "{{ main_user }}"
+      file:
+        path: /home/{{ main_user }}/server-manager/assetto
+        state: directory
+        owner: "{{ main_user }}"
+        group: "{{ main_user }}"
+        mode: 0775
+
+    - name: use docker run to install assetto first w/ sudo
+      command: "docker run -it -v /home/{{ main_user }}/server-manager/server-install:/data steamcmd/steamcmd:latest +@sSteamCmdForcePlatformType windows +@NoPromptForPassword 1 +login {{ steam_user }} {{ steam_pwd }} +force_install_dir /data +app_update 302550 +quit"
+
+    - name: reset ssh connection to allow user changes to affect 'current login user'
+      meta: reset_connection
+    -
+    - name: use docker run to install assetto now w/ main_user
+      become: "{{ main_user }}"
+      command: "docker run -it -v /home/{{ main_user }}/server-manager/server-install:/data steamcmd/steamcmd:latest +@sSteamCmdForcePlatformType windows +@NoPromptForPassword 1 +login {{ steam_user }} {{ steam_pwd }} +force_install_dir /data +app_update 302550 +quit"
+
+    - name: copy server_manager folder contents
+      become_user: "{{ main_user }}"
+      copy:
+        src: server_manager/
+        dest: /home/{{ main_user }}/server-manager/
+
+    - name: bring down server-manager docker-compose
+      become_user: "{{ main_user }}"
+      docker_compose:
+        project_src: /home/{{ main_user }}/server-manager/
+        state: absent
+      register: __remove_assetto_server_manager
+      tags:
+        - bring-down
+
+    - name: update permissions
+      file:
+        path: /home/{{ main_user }}
+        state: directory
+        recurse: yes
+        owner: "{{ main_user }}"
+        group: "{{ main_user }}"
+        mode: 0775
+
+    - name: docker compose up
+      become_user: "{{ main_user }}"
+      docker_compose:
+        project_src: /home/{{ main_user }}/server-manager/
+        state: present
+      register: __assetto_server_manager
+
+    - name: debug docker compose down
+      debug:
+        var: __remove_assetto_server_manager
+
+    - name: debug docker compose up
+      debug:
+        var: __assetto_server_manager

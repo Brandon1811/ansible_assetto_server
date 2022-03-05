@@ -1,35 +1,40 @@
 ---
 - hosts: docker
-  
   become: yes
   tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
 
-  # Install Docker
-  # --
-  # 
-  - name: install prerequisites
-    apt:
-      name:
-        - apt-transport-https
-        - ca-certificates 
-        - curl 
-        - gnupg-agent
-        - software-properties-common
-      update_cache: yes
+    - name: Install required system packages for Docker
+      apt: name={{ docker_required_packages }} state=latest update_cache=yes
 
-  - name: add apt-key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
+    - name: Add Docker GPG key
+      apt_key:
+        url: "{{ docker_gpg_url }}"
+        state: present
 
-  - name: add docker repo
-    apt_repository:
-      repo: deb https://download.docker.com/linux/ubuntu focal stable
+    - name: Add Docker repository
+      apt_repository:
+        repo: "{{ docker_repo }}"
+        state: present
 
-  - name: install docker 
-    apt:
-      name: 
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
-        - docker-compose
-      update_cache: yes
+    - name: Install Docker
+      apt: name={{ docker_packges }} state=latest update_cache=yes
+
+    - name: Install Python Docker module
+      pip:
+        name:
+          - docker
+          - docker-compose
+
+    - name: Add adminstrator to docker group
+      user:
+        name: "{{ main_user }}"
+        groups: docker
+        append: yes
+
+    - name: Install Docker Compose
+      get_url:
+        url: "{{ docker_compose_url }}"
+        dest: /usr/local/bin/docker-compose
+        mode: u+x,g+x,o+x

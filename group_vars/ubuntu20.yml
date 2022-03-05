@@ -36,6 +36,9 @@ ubuntu2004cis_rule_1_6_1: false
 
 
 #defaults to true
+ubuntu2004cis_rule_3_2_2: false
+
+#defaults to true
 ubuntu2004cis_rule_3_5_1_4: false
 
 #defaults to true

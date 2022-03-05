@@ -3,6 +3,7 @@ roles:
   # Install a role from Ansible Galaxy.
   - src: https://github.com/florianutz/ubuntu2004_cis.git
   - src: https://github.com/trallnag/ansible-role-endlessh.git
+  - src: https://github.com/siw36/ansible-steamcmd.git
 
 collections:
   - name: community.docker

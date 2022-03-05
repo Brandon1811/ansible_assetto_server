@@ -1,0 +1,6 @@
+- hosts: assetto
+  become: yes
+  tasks:
+    - name: Execute the command in remote shell; stdout goes to the specified file on the remote
+      ansible.builtin.shell: docker run -it -v $PWD/server-install:/data steamcmd/steamcmd:latest +@sSteamCmdForcePlatformType windows +@NoPromptForPassword 1 +login bigwang808 f9hBQHQSUNV9R7M4!! +force_install_dir /data +app_update 302550 +quit
+
