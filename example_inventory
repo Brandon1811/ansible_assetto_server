@@ -1,0 +1,14 @@
+server1			ansible_host=xxx.xxx.xxx.xxx		ansible_user=assetto		ansible_port=22
+
+[endlessh]
+server1
+
+[docker]
+server1
+
+[ubuntu20]
+server1
+
+[assetto]
+server1
+
