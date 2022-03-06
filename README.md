@@ -1,6 +1,6 @@
 Uses ansible to install https://github.com/JustaPenguin/assetto-server-manager via docker-compose onto a CIS hardened Ubuntu 20.04 LTS server
 
-Prequisites:
+Prerequisites:
 1. A ubuntu 20.04 VPS server with a sudo capable (non-root) user capable of ssh w/o a password
 2. ansible installed on your host/control machine
 
